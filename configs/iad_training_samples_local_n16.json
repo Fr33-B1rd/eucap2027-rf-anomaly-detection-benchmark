@@ -1,0 +1,69 @@
+{
+  "protocol_version": "iad-training-samples-local-pilot-n16-v1",
+  "dataset_dir": "Datasets/IAD",
+  "protocol": {
+    "normal_reference_source": "CHIRP",
+    "normal_test_source": "CHIRP",
+    "anomaly_conditions": ["16QAM", "CHIRP", "GMSK", "QPSK"],
+    "normal_usage": "seeded_nested_reference_subset_for_fitting",
+    "normal_train_budget": 16,
+    "held_out_calibration": false,
+    "expected_counts": {
+      "normal_reference": 4388,
+      "normal_test": 788,
+      "anomaly_per_condition": 774
+    }
+  },
+  "matrix": {
+    "gpu_methods": ["patchcore", "cflow", "vae_per"],
+    "cpu_methods": [],
+    "seeds": [2026]
+  },
+  "evaluation": {
+    "partial_auc_max_fpr": 0.01,
+    "bootstrap_samples": 2000,
+    "save_fit_reference_scores": true
+  },
+  "methods": {
+    "patchcore": {
+      "batch_size": 16,
+      "input_size": 64,
+      "backbone": "wide_resnet50_2",
+      "layers": ["layer2", "layer3"],
+      "sample_patches_per_image": 32,
+      "candidate_pool_size": 30000,
+      "coreset_ratio": 0.1,
+      "max_memory_bank_size": 3000,
+      "projection_dim": 128,
+      "query_chunk_size": 4096
+    },
+    "cflow": {
+      "input_size": 64,
+      "train_batch_size": 16,
+      "score_batch_size": 64,
+      "backbone": "wide_resnet50_2",
+      "pool_layers": 3,
+      "coupling_blocks": 8,
+      "condition_vector_dim": 128,
+      "clamp_alpha": 1.9,
+      "fiber_batch_size": 64,
+      "meta_epochs": 25,
+      "sub_epochs": 8,
+      "lr": 0.0002,
+      "lr_decay_rate": 0.1,
+      "lr_warm_epochs": 2,
+      "checkpoint_every_meta_epochs": 5,
+      "keep_checkpoint_after_success": false
+    },
+    "vae_per": {
+      "batch_size": 64,
+      "input_size": 64,
+      "epochs": 1000,
+      "lr": 0.0001,
+      "latent_dim": 75,
+      "kl_weight": 0.1
+    }
+  },
+  "assets": {},
+  "save_scores": true
+}

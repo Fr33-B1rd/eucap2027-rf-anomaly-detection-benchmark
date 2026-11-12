@@ -6,6 +6,8 @@ __pycache__/
 
 # Local environment
 .venv/
+.envs/
+.cache/
 .env
 
 # IDE / editor
@@ -19,9 +21,47 @@ Thumbs.db
 
 # Large generated artifacts — keep locally, do not version
 outputs/
+logs/
+output/
+tmp/
+paper/
+iad_cflow_official_matrix/
+iad_final_berzelius/
+reports/
+iad_supplementary_berzelius.tar
 *.npy
 *.npz
 *.pt
+*.pth
+*.ckpt
+*.tar
+*.tar.gz
+
+# Local research notes and superseded protocol drafts
+IAD_DETECTION_PROTOCOL.md
+IAD_DETECTION_PROTOCOL_V2.md
+IAD_LOC_PROTOCOL.md
+STFPMnote.md
+berzelius/IAD_*.md
+
+# Manuscript-only builders and checks are retained locally
+scripts/build_iad_common_normal_paper_artifacts.py
+scripts/build_iad_paper_artifacts.py
+scripts/build_iad_condition_kde_preview.py
+scripts/build_iad_full_training_figures.py
+scripts/build_iad_minmax_kde_preview.py
+scripts/create_iad_protocol_pipeline_preview.py
+scripts/analyze_iad_score_behavior.py
+scripts/generate_iad_quick_heatmap_grid.py
+scripts/plot_iad_formal_heatmaps.py
+scripts/plot_iad_roc_curves.py
+scripts/run_iad_formal_heatmap_export.py
+tests/test_iad_paper_statistics.py
+
+# Test and coverage output
+.coverage
+htmlcov/
+coverage.xml
 
 # Notes: _archive/ is kept under version control so cleaned-up history is
 # reviewable; uncomment the next line if you decide to drop it instead.

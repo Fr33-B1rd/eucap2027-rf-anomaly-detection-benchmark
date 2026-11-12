@@ -1,0 +1,30 @@
+{
+  "protocol_version": "iad-patchcore-resolution128-scaled-budget-seeds2027-2030-v1",
+  "dataset_dir": "Datasets/IAD",
+  "matrix": {
+    "methods": ["patchcore"],
+    "modulations": ["16QAM", "CHIRP", "GMSK", "QPSK"],
+    "seeds": [2027, 2028, 2029, 2030]
+  },
+  "evaluation": {
+    "calibration_fraction": 0.2,
+    "threshold_quantile": 0.95,
+    "bootstrap_samples": 2000
+  },
+  "methods": {
+    "patchcore": {
+      "batch_size": 16,
+      "input_size": 128,
+      "backbone": "wide_resnet50_2",
+      "layers": ["layer2", "layer3"],
+      "sample_patches_per_image": 128,
+      "candidate_pool_size": 120000,
+      "coreset_ratio": 0.1,
+      "max_memory_bank_size": 12000,
+      "projection_dim": 128,
+      "query_chunk_size": 2048
+    }
+  },
+  "assets": {},
+  "save_scores": true
+}

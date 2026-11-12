@@ -1,0 +1,27 @@
+{
+  "protocol_version": "iad-vae-per1000-berzelius-v1",
+  "dataset_dir": "Datasets/IAD",
+  "matrix": {
+    "methods": ["vae_per"],
+    "modulations": ["16QAM", "CHIRP", "GMSK", "QPSK"],
+    "seeds": [2026, 2027, 2028, 2029, 2030]
+  },
+  "evaluation": {
+    "calibration_fraction": 0.2,
+    "threshold_quantile": 0.95,
+    "bootstrap_samples": 2000,
+    "checkpoint_epochs": [100, 250, 500, 1000]
+  },
+  "methods": {
+    "vae_per": {
+      "input_size": 64,
+      "epochs": 1000,
+      "batch_size": 64,
+      "lr": 0.0001,
+      "latent_dim": 75,
+      "kl_weight": 0.1
+    }
+  },
+  "assets": {},
+  "save_scores": true
+}

@@ -1,0 +1,58 @@
+{
+  "protocol_version": "iad-detection-v1",
+  "dataset_dir": "Datasets/IAD",
+  "calibration_fraction": 0.2,
+  "threshold_quantile": 0.95,
+  "bootstrap_samples": 2000,
+  "seeds": [2026, 2027, 2028, 2029, 2030],
+  "methods": {
+    "vae_per": {
+      "epochs": 100,
+      "batch_size": 64,
+      "lr": 0.0001,
+      "latent_dim": 75,
+      "kl_weight": 0.1
+    },
+    "patchcore": {
+      "batch_size": 32,
+      "input_size": 256,
+      "backbone": "resnet18",
+      "layers": ["layer2", "layer3"],
+      "sample_patches_per_image": 32,
+      "candidate_pool_size": 30000,
+      "coreset_ratio": 0.1,
+      "max_memory_bank_size": 3000,
+      "projection_dim": 128,
+      "query_chunk_size": 4096
+    },
+    "efficientad": {
+      "batch_size": 32,
+      "input_size": 256,
+      "epochs": 50,
+      "lr": 0.0001
+    },
+    "cflow": {
+      "batch_size": 16,
+      "input_size": 256,
+      "epochs": 20,
+      "lr": 0.0002,
+      "flow_dim": 64,
+      "flow_blocks": 4,
+      "patches_per_batch": 4096
+    },
+    "stfpm": {
+      "batch_size": 32,
+      "input_size": 256,
+      "epochs": 50,
+      "lr": 0.4,
+      "layers": ["layer1", "layer2", "layer3"]
+    },
+    "dinov2_knn": {
+      "batch_size": 16,
+      "input_size": 252,
+      "patches_per_image": 16,
+      "max_memory_bank_size": 20000,
+      "query_chunk_size": 2048
+    }
+  }
+}

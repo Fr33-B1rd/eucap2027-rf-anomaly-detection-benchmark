@@ -1,0 +1,62 @@
+{
+  "protocol_version": "iad-final-berzelius-v1",
+  "dataset_dir": "Datasets/IAD",
+  "matrix": {
+    "methods": ["patchcore", "efficientad", "stfpm", "vae_per"],
+    "modulations": ["16QAM", "CHIRP", "GMSK", "QPSK"],
+    "seeds": [2026, 2027, 2028, 2029, 2030]
+  },
+  "evaluation": {
+    "calibration_fraction": 0.2,
+    "threshold_quantile": 0.95,
+    "bootstrap_samples": 2000
+  },
+  "methods": {
+    "patchcore": {
+      "batch_size": 16,
+      "input_size": 64,
+      "backbone": "wide_resnet50_2",
+      "layers": ["layer2", "layer3"],
+      "sample_patches_per_image": 32,
+      "candidate_pool_size": 30000,
+      "coreset_ratio": 0.1,
+      "max_memory_bank_size": 3000,
+      "projection_dim": 128,
+      "query_chunk_size": 4096
+    },
+    "efficientad": {
+      "batch_size": 1,
+      "input_size": 256,
+      "model_size": "medium",
+      "teacher_out_channels": 384,
+      "teacher_weights_relative": "efficientad/weights/efficientad_pretrained_weights/pretrained_teacher_medium.pth",
+      "teacher_weights_sha256": "f7356663c8e00ada12ae01fb8c8aad0a1de2f800f8eadf252a46d29bbdfdf718",
+      "imagenette_dir_relative": "efficientad/imagenette2",
+      "max_steps": 70000,
+      "lr": 0.0001,
+      "weight_decay": 0.00001
+    },
+    "stfpm": {
+      "batch_size": 32,
+      "input_size": 64,
+      "epochs": 50,
+      "lr": 0.4,
+      "layers": ["layer1", "layer2", "layer3"]
+    },
+    "vae_per": {
+      "input_size": 64,
+      "epochs": 100,
+      "batch_size": 64,
+      "lr": 0.0001,
+      "latent_dim": 75,
+      "kl_weight": 0.1
+    }
+  },
+  "assets": {
+    "teacher_bundle_url": "https://github.com/open-edge-platform/anomalib/releases/download/efficientad_pretrained_weights/efficientad_pretrained_weights.zip",
+    "teacher_bundle_sha256": "c09aeaa2b33f244b3261a5efdaeae8f8284a949470a4c5a526c61275fe62684a",
+    "imagenette_url": "https://s3.amazonaws.com/fast-ai-imageclas/imagenette2.tgz",
+    "imagenette_sha256": "6cbfac238434d89fe99e651496f0812ebc7a10fa62bd42d6874042bf01de4efd"
+  },
+  "save_scores": true
+}

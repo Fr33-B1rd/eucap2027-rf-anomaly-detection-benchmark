@@ -1,0 +1,22 @@
+{
+  "protocol_version": "iad-patchcore64-rn18-seed2026",
+  "dataset_dir": "Datasets/IAD",
+  "calibration_fraction": 0.2,
+  "threshold_quantile": 0.95,
+  "bootstrap_samples": 2000,
+  "seeds": [2026],
+  "methods": {
+    "patchcore": {
+      "batch_size": 16,
+      "input_size": 64,
+      "backbone": "resnet18",
+      "layers": ["layer2", "layer3"],
+      "sample_patches_per_image": 32,
+      "candidate_pool_size": 30000,
+      "coreset_ratio": 0.1,
+      "max_memory_bank_size": 3000,
+      "projection_dim": 128,
+      "query_chunk_size": 4096
+    }
+  }
+}

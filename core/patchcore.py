@@ -15,8 +15,10 @@ import torch.nn.functional as F
 from sklearn.random_projection import SparseRandomProjection
 from torch.utils.data import DataLoader, Dataset
 from torchvision.models import (
+    ResNet50_Weights,
     ResNet18_Weights,
     Wide_ResNet50_2_Weights,
+    resnet50,
     resnet18,
     wide_resnet50_2,
 )
@@ -136,6 +138,9 @@ class ResNetFeatureExtractor(nn.Module):
         if backbone == "resnet18":
             weights = ResNet18_Weights.DEFAULT if pretrained else None
             base = resnet18(weights=weights)
+        elif backbone == "resnet50":
+            weights = ResNet50_Weights.DEFAULT if pretrained else None
+            base = resnet50(weights=weights)
         elif backbone == "wide_resnet50_2":
             weights = Wide_ResNet50_2_Weights.DEFAULT if pretrained else None
             base = wide_resnet50_2(weights=weights)

@@ -1,46 +1,131 @@
-# Anomaly Localization
+# IAD Spectrogram Anomaly Detection
 
-ConvNeXtV2 open-world pipeline for SAS RF spectrogram anomaly detection and unknown-class discovery. Stage 1 uses PatchCore for ROI localization; Stage 2 is a 1-channel ConvNeXtV2-tiny classifier with energy-based open-set gating and HDBSCAN+UMAP unknown-class absorption.
+Reproducible normal-only anomaly detection on the ISM Anomaly Detection (IAD)
+spectrogram dataset. The benchmark compares four detector paradigms:
 
-For operational details (dataset paths, input-channel modes, run commands, results, caveats) see [HANDOFF.md](HANDOFF.md).
+| Method | Paradigm | Input |
+| --- | --- | ---: |
+| PatchCore | pretrained feature memory | 64 x 64 |
+| EfficientAD | student--teacher | 256 x 256 |
+| CFLOW-AD | feature-density estimation | 64 x 64 |
+| VAE-PER | reconstruction | 64 x 64 |
+
+All methods fit only normal training samples. The main protocol uses the full
+normal reference pool, a fixed normal test set, four unseen anomaly conditions,
+and five independent fitting seeds. Test labels are used only for evaluation.
+
+This branch contains code, configurations, tests, and cluster launch scripts.
+Datasets, model weights, run outputs, manuscript sources, and generated figures
+are intentionally not versioned.
 
 ## Repository layout
 
-```
-.
-├── HANDOFF.md                              # operational source of truth
-├── simulate_sas_convnextv2_open_world.py   # main entry (Stage 2 open-world)
-├── evaluate_sas_open_set_convnextv2.py     # static open-set baseline
-├── train_eval_patchcore_sas.py             # Stage 1 PatchCore driver (CLI + main)
-├── core/                                   # dataset-neutral functional modules
-│   ├── patchcore.py                        #   PatchCore model, ArrayDataset2D, feature extractor
-│   ├── viz.py                              #   AUROC/ROC/CM plotting, score CSV, anomaly montage
-│   └── metrics.py                          #   pixel-AUROC + AUPRO localization metrics
-├── dataio/                                 # dataset-specific loaders (renamed from datasets/
-│   └── sas/bundle.py                       #     to avoid shadowing HuggingFace `datasets`)
-├── cluster_patchcore_sas.py                # patch-feature clustering driver
-├── sas_open_world/                         # Stage 2 package (incl. models/, experiments/)
-├── scripts/                                # shell drivers for repeatable runs
-├── outputs/                                # all run artifacts (not versioned)
-└── _archive/                               # retired code and scripts, not on import path
+```text
+configs/                 versioned experiment configurations
+core/                    shared PatchCore and metric utilities
+dataio/iad/              safe IAD loading, discovery, and content hashing
+iad_detection/           detector implementations and protocol utilities
+iad_labeling/            optional local annotation and QC tools
+scripts/                 benchmark, collection, audit, and plotting commands
+berzelius/               reproducible Slurm environment and array scripts
+tests/                    unit and protocol-integrity tests
+outputs/                  generated run artifacts (ignored)
 ```
 
-## Main entry point
+The older SAS/open-world modules remain in the repository for compatibility
+with the parent thesis project but are not required by the IAD benchmark.
+
+## Dataset
+
+Download IAD using the links supplied by the dataset authors:
+
+<https://github.com/QXSLAB/vae_ism_ano/blob/main/dataset.md>
+
+Place the four released pickle files together in one directory. The loader
+discovers the 16QAM, CHIRP, GMSK, and QPSK sources from their filenames and
+validates their contents before use. Raw dataset files are not included here.
+
+## Local setup
+
+Python 3.11 is recommended.
 
 ```bash
-python simulate_sas_convnextv2_open_world.py \
-  --dataset-dir <path-to-packed-SAS-dataset> \
-  --output-dir <run-output-dir> \
-  --patchcore-output-dir <stage1-patchcore-output-dir> \
-  --input-mode roi \
-  --input-channels mag_1ch \
-  --seed 42
+conda env create -f environment.yml
+conda activate iad-anomaly-detection
 ```
 
-Reproducible 3-seed runs live in `scripts/ablation_mag_1ch.sh` (main) and `scripts/ablation_2ch_vs_3ch.sh` (ablation).
+The checked-in `requirements.txt` contains only dependencies used by the IAD
+code. CFLOW-AD requires `FrEIA`; it is included in that file. GPU users may
+instead install the PyTorch build appropriate for their CUDA version first.
 
-## Notes
+Run the test suite:
 
-- Stage 1 PatchCore output (`anomaly_outputs.npz`) must exist before any ROI-mode Stage 2 run.
-- `outputs/`, `__pycache__/`, and raw `*.npy` / `*.npz` / `*.pt` artifacts are excluded from version control (see `.gitignore`).
-- Historical code for OCSVM gates, PatchCore-only open-world, DINO feature clustering, and old IAD PatchCore variants is preserved under `_archive/` but is not importable.
+```bash
+python -m pytest -q
+```
+
+## Quick smoke run
+
+Task 0 is PatchCore with seed 2026. The command below uses reduced subsets and
+training to verify data loading, fitting, scoring, and result serialization:
+
+```bash
+python scripts/run_iad_full_training_berzelius.py \
+  --config configs/iad_benchmark.json \
+  --task-kind gpu \
+  --task-id 0 \
+  --dataset-dir /path/to/IAD \
+  --output-root outputs/iad_benchmark \
+  --device cuda \
+  --workers 0 \
+  --smoke
+```
+
+List the complete method-by-seed task map without starting training:
+
+```bash
+python scripts/run_iad_full_training_berzelius.py \
+  --config configs/iad_benchmark.json \
+  --task-kind gpu \
+  --list-tasks
+```
+
+## Formal Berzelius matrix
+
+The cluster workflow uses one GPU per method-by-seed cell. It creates a pinned
+Python/PyTorch environment, downloads checksum-verified EfficientAD assets,
+and stores outputs outside Git.
+
+```bash
+bash berzelius/prepare_iad_final_env.sh
+export BERZELIUS_ACCOUNT=<slurm-project-account>
+export IAD_DATA_DIR=/proj/<project>/users/$USER/Datasets/IAD
+bash berzelius/submit_iad_full_training_gpu.sh
+```
+
+Collect and validate a completed matrix:
+
+```bash
+python scripts/collect_iad_full_training_results.py \
+  --config configs/iad_benchmark.json \
+  --result-root outputs/iad_benchmark \
+  --output-dir outputs/iad_benchmark_summary
+```
+
+Use environment variables documented in the submission scripts to override
+the environment, configuration, asset, output, or concurrency settings.
+
+## Reproducibility and outputs
+
+Each completed cell records the configuration hash, source-data hashes, code
+snapshot hash, seed, package and device information, timings, metrics, and raw
+sample scores. Writes are atomic, and `--resume` accepts only matching run
+identities. Generated artifacts are written under `outputs/` and are ignored
+by Git.
+
+## Licensing and attribution
+
+Project-owned code is released under the MIT License. Adapted third-party
+components retain their original notices; see
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). The IAD dataset is obtained
+separately and remains subject to its authors' terms.

@@ -373,7 +373,7 @@ def parse_args():
     )
     parser.add_argument(
         "--dataset-root",
-        default=r"C:\Users\Zhuoer\code\thesis\Datasets\IAD",
+        default="Datasets/IAD",
         help="Directory containing the original IAD pickle files",
     )
     parser.add_argument(

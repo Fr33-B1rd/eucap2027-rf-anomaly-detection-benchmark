@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>IAD Localization Annotation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">IAD annotation pilot</p>
+        <h1>Localization annotation</h1>
+      </div>
+      <div class="identity-control">
+        <label for="annotator">Reviewer (server-locked)</label>
+        <input id="annotator" maxlength="64" spellcheck="false" readonly
+               aria-readonly="true" value="{{ annotator_id }}">
+        <button id="load-annotator" class="secondary" type="button">Reload work</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="sample-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Samples</h2>
+            <p id="progress">{{ sample_count }} in pilot</p>
+          </div>
+          <select id="status-filter" aria-label="Filter annotations">
+            <option value="all">All</option>
+            <option value="remaining">Remaining</option>
+            <option value="annotated">Annotated</option>
+            {% for status in statuses %}
+            <option value="{{ status }}">{{ status }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <ol id="sample-list" class="sample-list" aria-live="polite"></ol>
+      </aside>
+
+      <section class="canvas-panel">
+        <div class="sample-toolbar">
+          <button id="previous" class="icon-button" type="button" title="Previous sample">←</button>
+          <div class="sample-title">
+            <h2 id="sample-name">Loading reviewer workspace</h2>
+            <p id="sample-meta">The source image is always rendered at its original 64×64 resolution.</p>
+          </div>
+          <button id="next" class="icon-button" type="button" title="Next sample">→</button>
+        </div>
+
+        <div class="display-controls" aria-label="Display controls">
+          <fieldset>
+            <legend>Contrast</legend>
+            <label><input type="radio" name="contrast" value="global" checked> Fixed pilot 1–99%</label>
+            <label><input type="radio" name="contrast" value="percentile"> Per-image 1–99%</label>
+          </fieldset>
+          <label class="toggle">
+            <input id="proposal-toggle" type="checkbox">
+            <span>Show binary proposal</span>
+          </label>
+          <span id="proposal-note" class="muted">No proposal loaded</span>
+        </div>
+
+        <div id="canvas-shell" class="canvas-shell" aria-label="64 by 64 spectrogram annotation canvas">
+          <canvas id="spectrogram-canvas" width="64" height="64"></canvas>
+          <canvas id="proposal-canvas" width="64" height="64"></canvas>
+          <canvas id="annotation-canvas" width="64" height="64"></canvas>
+          <div id="empty-state">Loading the server-locked reviewer workspace.</div>
+        </div>
+
+        <div class="drawing-toolbar" role="toolbar" aria-label="Drawing tools">
+          <button class="tool active" data-tool="brush" type="button">Brush <kbd>B</kbd></button>
+          <button class="tool" data-tool="eraser" type="button">Eraser <kbd>E</kbd></button>
+          <button class="tool" data-tool="rectangle" type="button">Rectangle <kbd>R</kbd></button>
+          <label class="brush-size">Size
+            <input id="brush-size" type="range" min="1" max="8" value="2">
+            <output id="brush-size-output">2 px</output>
+          </label>
+          <span class="toolbar-spacer"></span>
+          <button id="undo" class="secondary" type="button" disabled>Undo <kbd>Ctrl Z</kbd></button>
+          <button id="clear" class="danger-quiet" type="button">Clear</button>
+        </div>
+        <p class="blind-note">
+          The optional aid is a binary proposal overlay only. Score maps and deep-model heatmaps
+          are not sent to this page.
+        </p>
+      </section>
+
+      <aside class="annotation-panel">
+        <h2>Decision</h2>
+        <label for="status">Status</label>
+        <select id="status">
+          {% for status in statuses %}
+          <option value="{{ status }}" {% if status == "draft" %}selected{% endif %}>{{ status }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="confidence">Confidence <output id="confidence-output">0.50</output></label>
+        <input id="confidence" type="range" min="0" max="1" step="0.05" value="0.5">
+
+        <fieldset class="ambiguity">
+          <legend>Ambiguity reasons</legend>
+          {% for reason in ambiguity_reasons %}
+          <label>
+            <input type="checkbox" name="ambiguity" value="{{ reason }}">
+            <span>{{ reason | replace("_", " ") }}</span>
+          </label>
+          {% endfor %}
+        </fieldset>
+
+        <dl class="derived-values">
+          <div><dt>Foreground</dt><dd id="foreground-count">0 px</dd></div>
+          <div><dt>Tight bbox</dt><dd id="bbox-value">—</dd></div>
+          <div><dt>Last save</dt><dd id="last-save">Not saved</dd></div>
+        </dl>
+
+        <button id="save" class="primary" type="button" disabled>Save annotation</button>
+        <p id="save-message" class="save-message" role="status" aria-live="polite"></p>
+      </aside>
+    </main>
+
+    <script>
+      window.IAD_UI_CONFIG = {{ {
+        "sampleCount": sample_count,
+        "annotator": annotator_id
+      } | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  </body>
+</html>

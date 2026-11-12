@@ -1,0 +1,49 @@
+{
+  "selection_version": "iad-formal-heatmap-selection-v1",
+  "seed": 2026,
+  "selection_basis": "Fixed before the heatmap rerun from the consensus ranks of the existing five-method formal score files.",
+  "samples": [
+    {
+      "label": "Typical normal",
+      "source": "CHIRP",
+      "split": "test",
+      "source_index": 1350,
+      "expected_label": 0
+    },
+    {
+      "label": "Hard normal",
+      "source": "CHIRP",
+      "split": "test",
+      "source_index": 1198,
+      "expected_label": 0
+    },
+    {
+      "label": "16QAM",
+      "source": "16QAM",
+      "split": "test",
+      "source_index": 710,
+      "expected_label": 1
+    },
+    {
+      "label": "CHIRP",
+      "source": "CHIRP",
+      "split": "test",
+      "source_index": 271,
+      "expected_label": 1
+    },
+    {
+      "label": "GMSK",
+      "source": "GMSK",
+      "split": "test",
+      "source_index": 472,
+      "expected_label": 1
+    },
+    {
+      "label": "QPSK",
+      "source": "QPSK",
+      "split": "test",
+      "source_index": 736,
+      "expected_label": 1
+    }
+  ]
+}

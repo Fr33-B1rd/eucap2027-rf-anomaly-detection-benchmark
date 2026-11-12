@@ -1,0 +1,17 @@
+{
+  "protocol_version": "iad-stfpm64-seed2026",
+  "dataset_dir": "Datasets/IAD",
+  "calibration_fraction": 0.2,
+  "threshold_quantile": 0.95,
+  "bootstrap_samples": 2000,
+  "seeds": [2026],
+  "methods": {
+    "stfpm": {
+      "batch_size": 32,
+      "input_size": 64,
+      "epochs": 50,
+      "lr": 0.4,
+      "layers": ["layer1", "layer2", "layer3"]
+    }
+  }
+}

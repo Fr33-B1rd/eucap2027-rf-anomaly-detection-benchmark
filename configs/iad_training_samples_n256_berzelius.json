@@ -1,0 +1,86 @@
+{
+  "protocol_version": "iad-training-samples-n256-formal-v1",
+  "dataset_dir": "Datasets/IAD",
+  "protocol": {
+    "normal_reference_source": "CHIRP",
+    "normal_test_source": "CHIRP",
+    "anomaly_conditions": ["16QAM", "CHIRP", "GMSK", "QPSK"],
+    "normal_usage": "seeded_nested_reference_subset_for_fitting",
+    "normal_train_budget": 256,
+    "held_out_calibration": false,
+    "expected_counts": {
+      "normal_reference": 4388,
+      "normal_test": 788,
+      "anomaly_per_condition": 774
+    }
+  },
+  "matrix": {
+    "gpu_methods": ["patchcore", "efficientad", "cflow", "vae_per"],
+    "cpu_methods": [],
+    "seeds": [2026, 2027, 2028, 2029, 2030]
+  },
+  "evaluation": {
+    "partial_auc_max_fpr": 0.01,
+    "bootstrap_samples": 2000,
+    "save_fit_reference_scores": true
+  },
+  "methods": {
+    "patchcore": {
+      "batch_size": 16,
+      "input_size": 64,
+      "backbone": "wide_resnet50_2",
+      "layers": ["layer2", "layer3"],
+      "sample_patches_per_image": 32,
+      "candidate_pool_size": 30000,
+      "coreset_ratio": 0.1,
+      "max_memory_bank_size": 3000,
+      "projection_dim": 128,
+      "query_chunk_size": 4096
+    },
+    "efficientad": {
+      "batch_size": 1,
+      "input_size": 256,
+      "model_size": "medium",
+      "teacher_out_channels": 384,
+      "teacher_weights_relative": "efficientad/weights/efficientad_pretrained_weights/pretrained_teacher_medium.pth",
+      "teacher_weights_sha256": "f7356663c8e00ada12ae01fb8c8aad0a1de2f800f8eadf252a46d29bbdfdf718",
+      "imagenette_dir_relative": "efficientad/imagenette2",
+      "max_steps": 70000,
+      "lr": 0.0001,
+      "weight_decay": 0.00001
+    },
+    "cflow": {
+      "input_size": 64,
+      "train_batch_size": 64,
+      "score_batch_size": 64,
+      "backbone": "wide_resnet50_2",
+      "pool_layers": 3,
+      "coupling_blocks": 8,
+      "condition_vector_dim": 128,
+      "clamp_alpha": 1.9,
+      "fiber_batch_size": 256,
+      "meta_epochs": 25,
+      "sub_epochs": 8,
+      "lr": 0.0002,
+      "lr_decay_rate": 0.1,
+      "lr_warm_epochs": 2,
+      "checkpoint_every_meta_epochs": 5,
+      "keep_checkpoint_after_success": false
+    },
+    "vae_per": {
+      "batch_size": 64,
+      "input_size": 64,
+      "epochs": 1000,
+      "lr": 0.0001,
+      "latent_dim": 75,
+      "kl_weight": 0.1
+    }
+  },
+  "assets": {
+    "teacher_bundle_url": "https://github.com/open-edge-platform/anomalib/releases/download/efficientad_pretrained_weights/efficientad_pretrained_weights.zip",
+    "teacher_bundle_sha256": "c09aeaa2b33f244b3261a5efdaeae8f8284a949470a4c5a526c61275fe62684a",
+    "imagenette_url": "https://s3.amazonaws.com/fast-ai-imageclas/imagenette2.tgz",
+    "imagenette_sha256": "6cbfac238434d89fe99e651496f0812ebc7a10fa62bd42d6874042bf01de4efd"
+  },
+  "save_scores": true
+}

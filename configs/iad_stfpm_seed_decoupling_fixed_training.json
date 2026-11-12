@@ -1,0 +1,41 @@
+{
+  "protocol_version": "iad-stfpm-seed-decoupling-fixed-training-v1",
+  "dataset_dir": "Datasets/IAD",
+  "protocol": {
+    "normal_reference_source": "CHIRP",
+    "normal_test_source": "CHIRP",
+    "anomaly_conditions": ["16QAM", "CHIRP", "GMSK", "QPSK"],
+    "split_strategy": "seeded_index_permutation",
+    "expected_counts": {
+      "normal_reference": 4388,
+      "normal_test": 788,
+      "anomaly_per_condition": 774
+    }
+  },
+  "randomization": {
+    "split_seed": "task_seed",
+    "training_seed": 2026
+  },
+  "matrix": {
+    "gpu_methods": ["stfpm"],
+    "cpu_methods": [],
+    "seeds": [2027, 2028, 2029, 2030]
+  },
+  "evaluation": {
+    "calibration_fraction": 0.2,
+    "threshold_quantile": 0.99,
+    "bootstrap_samples": 500
+  },
+  "methods": {
+    "stfpm": {
+      "batch_size": 32,
+      "input_size": 64,
+      "epochs": 50,
+      "lr": 0.4,
+      "layers": ["layer1", "layer2", "layer3"],
+      "record_diagnostics": true
+    }
+  },
+  "assets": {},
+  "save_scores": true
+}

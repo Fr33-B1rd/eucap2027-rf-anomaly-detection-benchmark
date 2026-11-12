@@ -1,0 +1,47 @@
+{
+  "protocol_version": "iad-cflow-official-matrix-v1",
+  "official_reference": {
+    "repository": "https://github.com/gudovskiy/cflow-ad",
+    "commit": "b2ebf9e673a0aa46992a3b18367ec066a57bba89"
+  },
+  "dataset_dir": "Datasets/IAD",
+  "matrix": {
+    "input_sizes": [64, 128, 256],
+    "modulations": ["16QAM", "CHIRP", "GMSK", "QPSK"],
+    "seeds": [2026, 2027, 2028, 2029, 2030],
+    "train_batch_size_by_input": {
+      "64": 64,
+      "128": 32,
+      "256": 32
+    },
+    "score_batch_size_by_input": {
+      "64": 64,
+      "128": 32,
+      "256": 16
+    }
+  },
+  "training": {
+    "backbone": "wide_resnet50_2",
+    "pool_layers": 3,
+    "coupling_blocks": 8,
+    "condition_vector_dim": 128,
+    "clamp_alpha": 1.9,
+    "fiber_batch_size": 256,
+    "meta_epochs": 25,
+    "sub_epochs": 8,
+    "lr": 0.0002,
+    "lr_decay_rate": 0.1,
+    "lr_warm_epochs": 2
+  },
+  "evaluation": {
+    "calibration_fraction": 0.2,
+    "threshold_quantile": 0.95,
+    "bootstrap_samples": 2000,
+    "scoring": "official_probability_maps_with_fixed_normal_calibration_maxima"
+  },
+  "checkpoint": {
+    "every_meta_epochs": 5,
+    "keep_after_success": false
+  },
+  "save_scores": true
+}

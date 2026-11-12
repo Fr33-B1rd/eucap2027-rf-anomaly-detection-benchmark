@@ -16,7 +16,7 @@ def parse_args():
     )
     parser.add_argument(
         "--base-dir",
-        default=r"C:\Users\Zhuoer\code\thesis\Anomaly_Localization\outputs\feature_mode_comparison_v1",
+        default="outputs/feature_mode_comparison_v1",
         help="Base directory containing mean/gram/mean_plus_gram best_config_artifacts",
     )
     parser.add_argument(

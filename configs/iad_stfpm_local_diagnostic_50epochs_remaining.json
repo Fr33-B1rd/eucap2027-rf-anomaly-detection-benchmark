@@ -1,0 +1,38 @@
+{
+  "protocol_version": "iad-stfpm-local-diagnostic-full50-remaining-v1",
+  "dataset_dir": "Datasets/IAD",
+  "protocol": {
+    "normal_reference_source": "CHIRP",
+    "normal_test_source": "CHIRP",
+    "anomaly_conditions": ["16QAM", "CHIRP", "GMSK", "QPSK"],
+    "normal_usage": "all_reference_normals_for_fitting",
+    "held_out_calibration": false,
+    "expected_counts": {
+      "normal_reference": 4388,
+      "normal_test": 788,
+      "anomaly_per_condition": 774
+    }
+  },
+  "matrix": {
+    "gpu_methods": ["stfpm"],
+    "cpu_methods": [],
+    "seeds": [2026, 2028, 2029]
+  },
+  "evaluation": {
+    "partial_auc_max_fpr": 0.01,
+    "bootstrap_samples": 500,
+    "save_fit_reference_scores": true
+  },
+  "methods": {
+    "stfpm": {
+      "batch_size": 32,
+      "input_size": 64,
+      "epochs": 50,
+      "lr": 0.4,
+      "layers": ["layer1", "layer2", "layer3"],
+      "record_diagnostics": true
+    }
+  },
+  "assets": {},
+  "save_scores": true
+}

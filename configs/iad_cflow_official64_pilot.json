@@ -1,0 +1,18 @@
+{
+  "protocol_version": "iad-cflow-official-architecture-64-pilot-v1",
+  "dataset_dir": "Datasets/IAD",
+  "modulation": "16QAM",
+  "seed": 2026,
+  "calibration_fraction": 0.2,
+  "input_size": 64,
+  "batch_size": 64,
+  "fiber_batch_size": 256,
+  "pool_layers": 3,
+  "coupling_blocks": 8,
+  "condition_vector_dim": 128,
+  "clamp_alpha": 1.9,
+  "meta_epochs": 1,
+  "sub_epochs": 1,
+  "lr": 0.0002,
+  "workers": 0
+}

@@ -1,0 +1,26 @@
+{
+  "protocol_version": "iad-inference-benchmark-v1.1",
+  "representative": {
+    "modulation": "16QAM",
+    "seed": 2026
+  },
+  "methods": ["patchcore", "efficientad", "cflow", "vae_per"],
+  "cflow_input_size": 64,
+  "precision": "float32",
+  "output_semantics": "image_level_anomaly_score_only",
+  "score_tolerance_abs": 0.0001,
+  "score_tolerance_rel": 0.0002,
+  "latency": {
+    "batch_size": 1,
+    "warmup_iterations": 100,
+    "measurement_iterations": 1000,
+    "end_to_end_workers": 0
+  },
+  "throughput": {
+    "batch_size": 16,
+    "warmup_iterations": 100,
+    "measurement_iterations": 500,
+    "trials": 10,
+    "end_to_end_workers": 8
+  }
+}
