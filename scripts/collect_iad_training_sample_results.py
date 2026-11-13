@@ -20,7 +20,7 @@ if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from iad_detection.common_normal_protocol import expand_common_normal_tasks  # noqa: E402
-from scripts.run_iad_full_training_berzelius import (  # noqa: E402
+from scripts.run_iad_benchmark import (  # noqa: E402
     load_full_training_config,
 )
 
@@ -38,12 +38,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--config-64",
         type=Path,
-        default=REPOSITORY_ROOT / "configs/iad_training_samples_n64_berzelius.json",
+        default=REPOSITORY_ROOT / "configs/iad_training_samples_n64.json",
     )
     parser.add_argument(
         "--config-256",
         type=Path,
-        default=REPOSITORY_ROOT / "configs/iad_training_samples_n256_berzelius.json",
+        default=REPOSITORY_ROOT / "configs/iad_training_samples_n256.json",
     )
     parser.add_argument(
         "--configs",
@@ -57,7 +57,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--result-root",
         type=Path,
-        default=REPOSITORY_ROOT / "outputs/iad_training_samples_berzelius",
+        default=REPOSITORY_ROOT / "outputs/iad_training_samples",
     )
     parser.add_argument(
         "--output-dir",

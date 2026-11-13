@@ -1,5 +1,5 @@
 {
-  "protocol_version": "iad-patchcore-resolution128-berzelius-v1",
+  "protocol_version": "iad-patchcore-resolution256-v1",
   "dataset_dir": "Datasets/IAD",
   "matrix": {
     "methods": ["patchcore"],
@@ -14,7 +14,7 @@
   "methods": {
     "patchcore": {
       "batch_size": 16,
-      "input_size": 128,
+      "input_size": 256,
       "backbone": "wide_resnet50_2",
       "layers": ["layer2", "layer3"],
       "sample_patches_per_image": 32,

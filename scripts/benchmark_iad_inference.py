@@ -78,7 +78,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--final-config",
         type=Path,
-        default=REPOSITORY_ROOT / "configs/iad_final_berzelius_matrix.json",
+        default=REPOSITORY_ROOT / "configs/iad_method_configs.json",
     )
     parser.add_argument(
         "--cflow-config",

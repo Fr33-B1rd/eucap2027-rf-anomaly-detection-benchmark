@@ -26,8 +26,10 @@ output/
 tmp/
 paper/
 iad_cflow_official_matrix/
+iad_final_matrix/
 iad_final_berzelius/
 reports/
+iad_supplementary_results.tar
 iad_supplementary_berzelius.tar
 *.npy
 *.npz
@@ -42,7 +44,7 @@ IAD_DETECTION_PROTOCOL.md
 IAD_DETECTION_PROTOCOL_V2.md
 IAD_LOC_PROTOCOL.md
 STFPMnote.md
-berzelius/IAD_*.md
+berzelius/
 
 # Manuscript-only builders and checks are retained locally
 scripts/build_iad_common_normal_paper_artifacts.py

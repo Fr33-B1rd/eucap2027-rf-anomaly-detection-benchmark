@@ -17,11 +17,11 @@ from scripts.analyze_iad_final_results import (
     holm_adjust,
     t_interval,
 )
-from scripts.run_iad_final_berzelius import code_snapshot_sha256
+from scripts.run_iad_final_matrix import code_snapshot_sha256
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG_PATH = ROOT / "configs" / "iad_final_berzelius_matrix.json"
+CONFIG_PATH = ROOT / "configs" / "iad_method_configs.json"
 
 
 def test_final_matrix_has_stable_80_cell_task_map() -> None:

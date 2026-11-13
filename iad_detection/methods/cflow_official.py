@@ -8,7 +8,7 @@ not used for model selection, and normal calibration data fixes score scaling
 and the operating threshold.
 
 CFLOW-derived portions: Copyright (c) 2021 Panasonic AI Lab of Panasonic
-Corporation of North America, BSD-3-Clause; see berzelius/CFLOW_LICENSE.txt.
+Corporation of North America, BSD-3-Clause; see licenses/CFLOW_LICENSE.txt.
 """
 
 from __future__ import annotations

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Run one independently resumable cell of the final Berzelius IAD matrix."""
+"""Run one independently resumable cell of the legacy IAD method matrix."""
 
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--config",
         type=Path,
-        default=REPOSITORY_ROOT / "configs/iad_final_berzelius_matrix.json",
+        default=REPOSITORY_ROOT / "configs/iad_method_configs.json",
     )
     parser.add_argument("--task-id", type=int)
     parser.add_argument("--task-count", action="store_true")
@@ -59,7 +59,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-root",
         type=Path,
-        default=REPOSITORY_ROOT / "outputs/iad_final_berzelius",
+        default=REPOSITORY_ROOT / "outputs/iad_final_matrix",
     )
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--workers", type=int, default=8)
@@ -105,7 +105,7 @@ def code_snapshot_sha256() -> str:
         REPOSITORY_ROOT / "dataio" / "iad",
         REPOSITORY_ROOT / "iad_detection",
     )
-    paths = [REPOSITORY_ROOT / "scripts" / "run_iad_final_berzelius.py"]
+    paths = [REPOSITORY_ROOT / "scripts" / "run_iad_final_matrix.py"]
     for root in roots:
         paths.extend(root.rglob("*.py"))
     digest = hashlib.sha256()

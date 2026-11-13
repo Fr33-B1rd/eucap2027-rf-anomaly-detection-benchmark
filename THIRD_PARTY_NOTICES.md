@@ -10,7 +10,7 @@ licenses continue to apply to derived portions and downloaded assets.
 `iad_detection/methods/cflow_official.py` adapts the official CFLOW-AD
 architecture from <https://github.com/gudovskiy/cflow-ad> at commit
 `b2ebf9e673a0aa46992a3b18367ec066a57bba89`. The upstream BSD 3-Clause notice
-is preserved in `berzelius/CFLOW_LICENSE.txt`.
+is preserved in `licenses/CFLOW_LICENSE.txt`.
 
 ## EfficientAD / Anomalib
 

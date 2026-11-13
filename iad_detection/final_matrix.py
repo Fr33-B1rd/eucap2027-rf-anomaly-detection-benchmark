@@ -1,4 +1,4 @@
-"""Stable task indexing and validation for the Berzelius final rerun matrix."""
+"""Stable task indexing and validation for the legacy final rerun matrix."""
 
 from __future__ import annotations
 

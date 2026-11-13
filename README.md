@@ -14,7 +14,7 @@ All methods fit only normal training samples. The main protocol uses the full
 normal reference pool, a fixed normal test set, four unseen anomaly conditions,
 and five independent fitting seeds. Test labels are used only for evaluation.
 
-This branch contains code, configurations, tests, and cluster launch scripts.
+This repository contains code, configurations, tests, and portable launch tools.
 Datasets, model weights, run outputs, manuscript sources, and generated figures
 are intentionally not versioned.
 
@@ -27,7 +27,7 @@ dataio/iad/              safe IAD loading, discovery, and content hashing
 iad_detection/           detector implementations and protocol utilities
 iad_labeling/            optional local annotation and QC tools
 scripts/                 benchmark, collection, audit, and plotting commands
-berzelius/               reproducible Slurm environment and array scripts
+licenses/                retained third-party license texts
 tests/                    unit and protocol-integrity tests
 outputs/                  generated run artifacts (ignored)
 ```
@@ -54,14 +54,22 @@ conda env create -f environment.yml
 conda activate iad-anomaly-detection
 ```
 
-The checked-in `requirements.txt` contains only dependencies used by the IAD
-code. CFLOW-AD requires `FrEIA`; it is included in that file. GPU users may
-instead install the PyTorch build appropriate for their CUDA version first.
+The checked-in `requirements.txt` contains the dependencies used by the IAD
+code. CFLOW-AD requires `FrEIA`; it is included in that file. If the Conda
+environment does not select the appropriate GPU-enabled PyTorch build for your
+system, install the build matching your CUDA runtime before running the matrix.
 
 Run the test suite:
 
 ```bash
 python -m pytest -q
+```
+
+EfficientAD additionally requires checksum-verified teacher weights and the
+ImageNette auxiliary dataset. Prepare them once with:
+
+```bash
+python scripts/prepare_iad_assets.py --asset-root .cache/iad_assets
 ```
 
 ## Quick smoke run
@@ -70,11 +78,12 @@ Task 0 is PatchCore with seed 2026. The command below uses reduced subsets and
 training to verify data loading, fitting, scoring, and result serialization:
 
 ```bash
-python scripts/run_iad_full_training_berzelius.py \
+python scripts/run_iad_benchmark.py \
   --config configs/iad_benchmark.json \
   --task-kind gpu \
   --task-id 0 \
   --dataset-dir /path/to/IAD \
+  --asset-root .cache/iad_assets \
   --output-root outputs/iad_benchmark \
   --device cuda \
   --workers 0 \
@@ -84,24 +93,32 @@ python scripts/run_iad_full_training_berzelius.py \
 List the complete method-by-seed task map without starting training:
 
 ```bash
-python scripts/run_iad_full_training_berzelius.py \
+python scripts/run_iad_benchmark.py \
   --config configs/iad_benchmark.json \
   --task-kind gpu \
   --list-tasks
 ```
 
-## Formal Berzelius matrix
+## Complete benchmark matrix
 
-The cluster workflow uses one GPU per method-by-seed cell. It creates a pinned
-Python/PyTorch environment, downloads checksum-verified EfficientAD assets,
-and stores outputs outside Git.
+The portable launcher executes the configured method-by-seed cells sequentially
+and resumes completed cells safely:
 
 ```bash
-bash berzelius/prepare_iad_final_env.sh
-export BERZELIUS_ACCOUNT=<slurm-project-account>
-export IAD_DATA_DIR=/proj/<project>/users/$USER/Datasets/IAD
-bash berzelius/submit_iad_full_training_gpu.sh
+python scripts/run_iad_matrix.py \
+  --config configs/iad_benchmark.json \
+  --dataset-dir /path/to/IAD \
+  --asset-root .cache/iad_assets \
+  --output-root outputs/iad_benchmark \
+  --device cuda \
+  --workers 8 \
+  --resume
 ```
+
+Use `--task-ids 0 1 2` to run only selected cells. On a multi-GPU workstation
+or a managed cluster, launch disjoint task-ID sets in separate processes and
+assign each process to one GPU using the platform's standard mechanism. The
+benchmark runner itself has no dependency on Slurm or a specific cluster.
 
 Collect and validate a completed matrix:
 
@@ -111,9 +128,6 @@ python scripts/collect_iad_full_training_results.py \
   --result-root outputs/iad_benchmark \
   --output-dir outputs/iad_benchmark_summary
 ```
-
-Use environment variables documented in the submission scripts to override
-the environment, configuration, asset, output, or concurrency settings.
 
 ## Reproducibility and outputs
 

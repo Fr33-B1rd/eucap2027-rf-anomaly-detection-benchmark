@@ -19,7 +19,7 @@ if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from iad_detection.common_normal_protocol import expand_common_normal_tasks  # noqa: E402
-from scripts.run_iad_full_training_berzelius import (  # noqa: E402
+from scripts.run_iad_benchmark import (  # noqa: E402
     load_full_training_config,
 )
 

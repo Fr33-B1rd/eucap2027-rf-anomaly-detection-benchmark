@@ -1,5 +1,5 @@
 {
-  "protocol_version": "iad-final-berzelius-v1",
+  "protocol_version": "iad-final-method-matrix-v1",
   "dataset_dir": "Datasets/IAD",
   "matrix": {
     "methods": ["patchcore", "efficientad", "stfpm", "vae_per"],

@@ -40,12 +40,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--config",
         type=Path,
-        default=REPOSITORY_ROOT / "configs/iad_common_normal_berzelius.json",
+        default=REPOSITORY_ROOT / "configs/iad_common_normal.json",
     )
     parser.add_argument(
         "--result-root",
         type=Path,
-        default=REPOSITORY_ROOT / "outputs/iad_common_normal_berzelius",
+        default=REPOSITORY_ROOT / "outputs/iad_common_normal",
     )
     parser.add_argument(
         "--output-dir",

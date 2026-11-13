@@ -32,7 +32,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--result-root",
         type=Path,
-        default=ROOT / "outputs/iad_common_normal_berzelius",
+        default=ROOT / "outputs/iad_common_normal",
     )
     parser.add_argument(
         "--output-dir",

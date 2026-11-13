@@ -45,7 +45,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--config",
         type=Path,
-        default=REPOSITORY_ROOT / "configs/iad_rf_energy_berzelius.json",
+        default=REPOSITORY_ROOT / "configs/iad_rf_energy.json",
     )
     parser.add_argument("--task-id", type=int)
     parser.add_argument("--all", action="store_true")
@@ -55,7 +55,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-root",
         type=Path,
-        default=REPOSITORY_ROOT / "outputs/iad_rf_energy_berzelius",
+        default=REPOSITORY_ROOT / "outputs/iad_rf_energy",
     )
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--summarize-only", action="store_true")

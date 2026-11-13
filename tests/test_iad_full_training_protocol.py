@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 
 from iad_detection.common_normal_protocol import expand_common_normal_tasks
-from scripts.run_iad_full_training_berzelius import (
+from scripts.run_iad_benchmark import (
     evaluate_without_calibration,
     load_full_training_config,
     select_fit_indices,
@@ -17,11 +17,11 @@ from scripts.run_iad_full_training_berzelius import (
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs/iad_benchmark.json"
 SAMPLE_CONFIGS = {
-    16: ROOT / "configs/iad_training_samples_n16_berzelius.json",
-    32: ROOT / "configs/iad_training_samples_n32_berzelius.json",
-    64: ROOT / "configs/iad_training_samples_n64_berzelius.json",
-    128: ROOT / "configs/iad_training_samples_n128_berzelius.json",
-    256: ROOT / "configs/iad_training_samples_n256_berzelius.json",
+    16: ROOT / "configs/iad_training_samples_n16.json",
+    32: ROOT / "configs/iad_training_samples_n32.json",
+    64: ROOT / "configs/iad_training_samples_n64.json",
+    128: ROOT / "configs/iad_training_samples_n128.json",
+    256: ROOT / "configs/iad_training_samples_n256.json",
 }
 
 

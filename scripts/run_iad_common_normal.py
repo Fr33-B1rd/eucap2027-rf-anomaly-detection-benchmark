@@ -45,7 +45,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--config",
         type=Path,
-        default=REPOSITORY_ROOT / "configs/iad_common_normal_berzelius.json",
+        default=REPOSITORY_ROOT / "configs/iad_common_normal.json",
     )
     parser.add_argument("--task-kind", choices=("gpu", "cpu"), default="gpu")
     parser.add_argument("--task-id", type=int)
@@ -57,7 +57,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-root",
         type=Path,
-        default=REPOSITORY_ROOT / "outputs/iad_common_normal_berzelius",
+        default=REPOSITORY_ROOT / "outputs/iad_common_normal",
     )
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--workers", type=int, default=8)
@@ -159,7 +159,7 @@ def code_snapshot_sha256() -> str:
         REPOSITORY_ROOT / "dataio" / "iad",
         REPOSITORY_ROOT / "iad_detection",
     )
-    paths = [REPOSITORY_ROOT / "scripts/run_iad_common_normal_berzelius.py"]
+    paths = [REPOSITORY_ROOT / "scripts/run_iad_common_normal.py"]
     for root in roots:
         paths.extend(root.rglob("*.py"))
     digest = hashlib.sha256()

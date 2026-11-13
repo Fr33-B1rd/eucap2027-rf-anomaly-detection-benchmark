@@ -10,7 +10,7 @@ from iad_detection.common_normal_protocol import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / "configs/iad_common_normal_berzelius.json"
+CONFIG = ROOT / "configs/iad_common_normal.json"
 
 
 def test_locked_common_normal_config_and_task_counts() -> None:

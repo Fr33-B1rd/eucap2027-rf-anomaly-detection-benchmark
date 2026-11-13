@@ -44,7 +44,7 @@ from iad_detection.final_matrix import (  # noqa: E402
 )
 from iad_detection.metrics import evaluate_detection  # noqa: E402
 from iad_detection.methods import build_detector  # noqa: E402
-from scripts.run_iad_final_berzelius import (  # noqa: E402
+from scripts.run_iad_final_matrix import (  # noqa: E402
     atomic_json,
     atomic_scores,
     file_sha256,
@@ -61,7 +61,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--config",
         type=Path,
-        default=REPOSITORY_ROOT / "configs/iad_vae_per1000_berzelius.json",
+        default=REPOSITORY_ROOT / "configs/iad_vae_per1000.json",
     )
     parser.add_argument("--task-id", type=int)
     parser.add_argument("--task-count", action="store_true")
@@ -70,7 +70,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-root",
         type=Path,
-        default=REPOSITORY_ROOT / "outputs/iad_vae_per1000_berzelius",
+        default=REPOSITORY_ROOT / "outputs/iad_vae_per1000",
     )
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--workers", type=int, default=8)
@@ -95,7 +95,7 @@ def code_snapshot_sha256() -> str:
     )
     paths = [
         REPOSITORY_ROOT / "scripts/run_iad_vae_epoch_ablation.py",
-        REPOSITORY_ROOT / "scripts/run_iad_final_berzelius.py",
+        REPOSITORY_ROOT / "scripts/run_iad_final_matrix.py",
     ]
     for root in roots:
         paths.extend(root.rglob("*.py"))

@@ -1,5 +1,5 @@
 {
-  "protocol_version": "iad-vae-per1000-berzelius-v1",
+  "protocol_version": "iad-vae-per1000-v1",
   "dataset_dir": "Datasets/IAD",
   "matrix": {
     "methods": ["vae_per"],

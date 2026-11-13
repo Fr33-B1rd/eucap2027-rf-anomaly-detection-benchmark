@@ -1,8 +1,8 @@
 {
-  "protocol_version": "iad-rf-spectral-energy-berzelius-v1",
+  "protocol_version": "iad-pca64-v1",
   "dataset_dir": "Datasets/IAD",
   "matrix": {
-    "methods": ["rf_spectral_energy"],
+    "methods": ["pca_reconstruction"],
     "modulations": ["16QAM", "CHIRP", "GMSK", "QPSK"],
     "seeds": [2026, 2027, 2028, 2029, 2030]
   },
@@ -11,15 +11,14 @@
     "threshold_quantile": 0.95,
     "bootstrap_samples": 2000
   },
-  "rf_energy": {
+  "pca": {
     "input_size": 64,
     "preprocessing_profile": "iad_native_x10",
-    "profile_reduction": "mean_over_time",
-    "center_estimator": "median",
-    "scale_estimator": "mad",
-    "mad_consistency_constant": 1.4826,
-    "scale_floor": 1e-6,
-    "score": "mean_squared_robust_z"
+    "n_components": 64,
+    "svd_solver": "randomized",
+    "iterated_power": 4,
+    "score": "mean_squared_reconstruction_error",
+    "score_batch_size": 512
   },
   "save_scores": true
 }

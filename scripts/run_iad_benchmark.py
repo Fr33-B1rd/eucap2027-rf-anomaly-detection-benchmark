@@ -41,7 +41,7 @@ from iad_detection.common_normal_protocol import (  # noqa: E402
     canonical_config_sha256,
     expand_common_normal_tasks,
 )
-from scripts.run_iad_common_normal_berzelius import (  # noqa: E402
+from scripts.run_iad_common_normal import (  # noqa: E402
     adapt_smoke_config,
     atomic_json,
     atomic_scores,
@@ -178,8 +178,8 @@ def code_snapshot_sha256() -> str:
         REPOSITORY_ROOT / "iad_detection",
     )
     paths = [
-        REPOSITORY_ROOT / "scripts/run_iad_common_normal_berzelius.py",
-        REPOSITORY_ROOT / "scripts/run_iad_full_training_berzelius.py",
+        REPOSITORY_ROOT / "scripts/run_iad_common_normal.py",
+        REPOSITORY_ROOT / "scripts/run_iad_benchmark.py",
     ]
     for root in roots:
         paths.extend(root.rglob("*.py"))
